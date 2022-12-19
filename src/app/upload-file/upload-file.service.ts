@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 })
 export class UploadFileService {
 
-  apiUrl = "https://file.io";
+  apiUrl = "http://localhost:8083";
 
   constructor(private http:HttpClient) { }
 
@@ -16,6 +16,13 @@ export class UploadFileService {
 
     dataFormat.append("file", file, file.name)
 
-    return this.http.post(this.apiUrl, dataFormat)
+    return this.http.post(`${this.apiUrl}/upload`, dataFormat, {
+      responseType: "json",
+      reportProgress: true
+    });
+  }
+
+  getFiles(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/files`)
   }
 }
